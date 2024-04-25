@@ -5,7 +5,6 @@ import Layout from "../layout/Layout"
 
 function Home() {
     return (
-        <Layout className='w-full h-screen flex items-center justify-center'>
             <main className='pl-[345px] mr-10 mt-6 text-white'>
                 <section className='today-rec'>
                     <h1 className='text-4xl mb-6'>Good morning</h1>
@@ -32,10 +31,8 @@ function Home() {
                     </div>
                 </section>
             </main>
-        </Layout>
     )
 }
 
 export default Home
 
- 
