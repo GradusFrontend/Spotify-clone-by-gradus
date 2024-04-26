@@ -4,12 +4,31 @@ import { TiHome } from "react-icons/ti";
 import { AiFillHome } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { BiLibrary } from "react-icons/bi";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 
 export default function Layout() {
-    const token = location.hash.split('=')[1].split('&')[0]
-    localStorage.setItem('token', token)
+
+    const [token, setToken] = useState('')
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        let token = localStorage.getItem('token')
+        let hash = location.hash
+    
+        if(!token && hash) {
+            token = hash.split('=')[1].split('&')[0]
+            location.href = ''
+            localStorage.setItem('token', token)
+        }
+
+        setToken(token)
+    }, [])
+
+    if(!token) {
+        navigate('/login')
+    }
     
     return (
         <>
