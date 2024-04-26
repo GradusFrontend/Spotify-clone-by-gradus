@@ -8,6 +8,9 @@ import { Link, Outlet } from "react-router-dom";
 
 
 export default function Layout() {
+    const token = location.hash.split('=')[1].split('&')[0]
+    localStorage.setItem('token', token)
+    
     return (
         <>
             <header className="w-full flex justify-between items-center pl-[340px] pr-10 py-5">

@@ -10,7 +10,6 @@ function MiniTrack({ img_src, title, singer, duration }) {
                     <h6 className="text-sm text-[#969696]">{singer}</h6>
                 </div>
             </div>
-
             <span className="track_duration text-base font-semibold text-[#969696]">{duration}</span>
         </div>
     );
