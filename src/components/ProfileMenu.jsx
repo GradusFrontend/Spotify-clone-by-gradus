@@ -31,7 +31,12 @@ export default function ProfileMenu() {
                             <li className="flex items-center justify-between cursor-pointer">
                                 <span>Profile</span>
                             </li>
-                            <li className="flex items-center justify-between cursor-pointer">
+                            <li
+                                onClick={() => {
+                                    localStorage.removeItem('token')
+                                    location.reload()
+                                }}
+                                className="flex items-center justify-between cursor-pointer">
                                 <span>Log out</span>
                             </li>
                         </ul>

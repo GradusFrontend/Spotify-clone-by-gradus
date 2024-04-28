@@ -32,7 +32,7 @@ export default function Layout() {
     
     return (
         <>
-            <header className="w-full flex justify-between items-center pl-[340px] pr-10 py-5">
+            <header className="w-full flex justify-between items-center pl-[340px] pr-10 py-5 z-10">
                 <div className="flex items-center gap-1">
                     <button className="bg-[#131313] rounded-full p-2">
                         <MdKeyboardArrowLeft size={24} color="white" />
@@ -44,7 +44,7 @@ export default function Layout() {
 
                 <ProfileMenu></ProfileMenu>
             </header>
-            <aside className="w-[300px] bg-black px-2.5 py-8 fixed top-0 left-0 bottom-0 flex flex-col items-start gap-7">
+            <aside className="w-[300px] bg-black px-2.5 py-8 fixed z-10 top-0 left-0 bottom-0 flex flex-col items-start gap-7">
                 <img src="/icons/big-logo.svg" alt="logo" className="pl-6" />
                 <nav className="w-full">
                     <ul className="w-full">
