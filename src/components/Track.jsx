@@ -1,8 +1,15 @@
+import { useContext } from "react";
+import { TrackContext } from "../App";
 
 
-function Track({img, name, singers, album, date, duration, index}) {
+function Track({src, img, name, singers, album, date, duration, index}) {
+    const {track, setTrack} = useContext(TrackContext)
+
     return ( 
-        <div className="track grid grid-cols-5 items-center px-5 py-2 rounded cursor-pointer hover:bg-[#2a2a2a]">
+        <div 
+            onClick={() => setTrack({img, name, singers, album, date, duration, index, src})}
+            className="track grid grid-cols-5 items-center px-5 py-2 rounded cursor-pointer hover:bg-[#2a2a2a]"
+        >
             <div className="flex items-center gap-5 col-start-1 col-end-3">
                 <span className="text-lg">{index}</span>
                 <img className="w-11 h-11 rounded" src={img} alt={name} />

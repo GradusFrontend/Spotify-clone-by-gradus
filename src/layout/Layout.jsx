@@ -6,10 +6,10 @@ import { CiSearch } from "react-icons/ci";
 import { BiLibrary } from "react-icons/bi";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Player from "../components/Player";
 
 
 export default function Layout() {
-
     const [token, setToken] = useState('')
     const navigate = useNavigate()
     
@@ -70,7 +70,7 @@ export default function Layout() {
                 </nav>
             </aside>
             <Outlet />
-            <div></div>
+            <Player />
         </>
     )
 }
