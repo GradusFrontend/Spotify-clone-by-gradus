@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
-import { IoPauseSharp, IoPlay  } from "react-icons/io5";
+import { IoPauseSharp, IoPlay, IoVolumeHigh } from "react-icons/io5";
 import { MdSkipPrevious, MdSkipNext } from "react-icons/md";
 import { TrackContext } from "../App";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import { useEffect } from "react";
 export default function Player(params) {
     const [play, setPlay] = useState(false)
 
-    const {track} = useContext(TrackContext)
+    const { track } = useContext(TrackContext)
 
     useEffect(() => {
         const audio = document.querySelector('audio')
@@ -25,8 +25,8 @@ export default function Player(params) {
             <div className="flex items-center gap-4 " >
                 <img
                     className="w-[70px] h-[70px]"
-                    src="https://plus.unsplash.com/premium_photo-1676834376020-a17554ed4fbb?q=80&w=2097&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                    alt="" 
+                    src="https://plus.unsplash.com/premium_photo-1676834376020-a17554ed4fbb?q=80&w=2097&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt=""
                 />
                 <div className="text-white flex flex-col items-start " >
                     <span>{track?.name}</span>
@@ -45,7 +45,7 @@ export default function Player(params) {
                     </button>
                     <button className="p-[8px] text-center bg-white rounded-full" >
                         {
-                            true ? <IoPlay size={24} /> : <IoPauseSharp size={24} />  
+                            true ? <IoPlay size={24} /> : <IoPauseSharp size={24} />
                         }
                     </button>
                     <button className="text-[#c4c4c4]" >
@@ -60,7 +60,10 @@ export default function Player(params) {
             </div>
             <div>
                 <button></button>
-                <input type="range" />
+                <div className="flex items-center gap-2">
+                    <IoVolumeHigh color="white" size={24} />
+                    <input type="range" />
+                </div>
                 <button></button>
                 <button></button>
             </div>

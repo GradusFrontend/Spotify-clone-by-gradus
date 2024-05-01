@@ -7,16 +7,15 @@ import axios from "axios";
 
 
 function Playlist() {
-    
+
 
     const [playlist, setPlaylist] = useState({})
 
-    // const [playlist, setPlaylist] = useState({})
     useEffect(() => {
         const token = localStorage.getItem('token')
         const URL = import.meta.env.VITE_API_URL
         const id = location.pathname.split('/').at(-1)
-        
+
         console.log(token);
         axios.get(`${URL}/playlists/${id}`, {
             headers: {
@@ -25,7 +24,7 @@ function Playlist() {
         })
             .then(res => {
                 setPlaylist(res.data)
-                console.log({res});
+                console.log({ res });
             })
     }, [])
 
@@ -43,11 +42,11 @@ function Playlist() {
                 str += `${element.name}, `
             });
 
-            str = str.slice(0, -1)
         } else {
             str = arr[0].name
         }
-
+        
+        str = str.slice(0, -1)
         return str
     }
 
@@ -57,26 +56,26 @@ function Playlist() {
 
             <main className=" text-white pl-[340px] mt-6">
                 {
-                    playlist?.tracks?.length > 0 ? (
+                    playlist?.tracks ?  (
                         <section className="flex gap-6">
-                        <div className="playlist_img">
-                            <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={playlist?.images[0]?.url} alt="playlist-card" />
-                        </div>
-                        <div className="playlist_info flex flex-col justify-end gap-3">
-                            <h3 className="text-base">{playlist.type}</h3>
-                            <h1 className="text-7xl font-bold w-[80%]">{playlist.name}</h1>
-                            <p className="text-[#cbc8c4]">{playlist.description}</p>
-                            <div className="flex  text-[#cbc8c4]">
-                                <span className="text-white cursor-pointer hover:underline">{playlist.owner.display_name}</span>
-                                <h5>, {playlist.tracks.items.length} треков</h5>
+                            <div className="playlist_img">
+                                <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={playlist?.images[0]?.url} alt="playlist-card" />
                             </div>
-                        </div>
-                    </section>
+                            <div className="playlist_info flex flex-col justify-end gap-3">
+                                <h3 className="text-base">{playlist.type}</h3>
+                                <h1 className="text-7xl font-bold w-[80%]">{playlist.name}</h1>
+                                <p className="text-[#cbc8c4]">{playlist.description}</p>
+                                <div className="flex  text-[#cbc8c4]">
+                                    <span className="text-white cursor-pointer hover:underline">{playlist.owner.display_name}</span>
+                                    <h5>, {playlist.tracks.items.length} треков</h5>
+                                </div>
+                            </div>
+                        </section>
                     ) : (
                         <span>loading...</span>
                     )
                 }
-               
+
 
                 <section className="mt-8 pt-8">
                     <div className="tools flex gap-10">
