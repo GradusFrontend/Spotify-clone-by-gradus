@@ -2,14 +2,15 @@ import { FaPlay } from "react-icons/fa";
 import { LuClock3 } from "react-icons/lu";
 import { RxDotsHorizontal } from "react-icons/rx";
 import Track from "../components/Track";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { PLaylistContext } from "../context/PlaylistCTX";
+import { artistsString, toMinutes } from "../helpers/utils";
 
 
 function Playlist() {
-
-
     const [playlist, setPlaylist] = useState({})
+    const {playlist_ctx, setPLaylist_ctx} = useContext(PLaylistContext)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -24,31 +25,12 @@ function Playlist() {
         })
             .then(res => {
                 setPlaylist(res.data)
-                console.log({ res });
+                console.log(res.data.tracks.items, 'traaaack');
+                setPLaylist_ctx(res.data.tracks.items)
             })
     }, [])
 
-    function toMinutes(num) {
-        let duration = num / 60000
-
-        return ((duration.toFixed(2)).split('.').join(':'));
-    }
-
-    function artistsString(arr) {
-        let str = ''
-
-        if (arr.length > 1) {
-            arr.forEach(element => {
-                str += `${element.name}, `
-            });
-
-        } else {
-            str = arr[0].name
-        }
-        
-        str = str.slice(0, -1)
-        return str
-    }
+   
 
     return (
         <>
@@ -109,7 +91,7 @@ function Playlist() {
                                         album={item.track.album.name}
                                         date={item.track.release_date}
                                         src={item.track.preview_url}
-                                        index={idx + 1}
+                                        index={idx}
                                         key={idx}
                                     />
                                 ))
