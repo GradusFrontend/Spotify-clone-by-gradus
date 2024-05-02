@@ -4,8 +4,8 @@ import { Audio } from 'react-loader-spinner'
 export default function AudioSpinner() {
     return (
         <Audio
-            height="27"
-            width="27"
+            height="20"
+            width="20"
             color="#4fa94d"
             ariaLabel="audio-loading"
             wrapperStyle={{}}

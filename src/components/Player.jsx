@@ -7,19 +7,23 @@ import { TrackContext } from "../context/TrackCTX"
 import { useEffect } from "react";
 import { PLaylistContext } from "../context/PlaylistCTX";
 import { artistsString, toMinutes } from "../helpers/utils";
+// import { PlayerContext } from "../context/PlayerCTX";
 
 
 export default function Player(params) {
     const [play, setPlay] = useState(false)
+    const [currTime, setCurrTime] = useState('00:00')
 
     const { track, setTrack } = useContext(TrackContext)
     const { playlist_ctx } = useContext(PLaylistContext)
-
+    // let audio = null
+    let audio = document.querySelector('audio')
+    console.log(audio);
     useEffect(() => {
-        const audio = document.querySelector('audio')
-        console.log({ track });
+        let audio = document.querySelector('audio')
         audio.src = track?.src
         audio.play()
+        setPlay(true)
 
     }, [track])
 
@@ -39,18 +43,30 @@ export default function Player(params) {
         setTrack(next_track)
     }
     function prevTrack() {
-        setTrack(playlist_ctx[track.index - 1])
+        const curr_track = playlist_ctx[track.index - 1]
+        const prev_track = {
+            img: curr_track.track.album.images[0].url,
+            name: curr_track.track.name,
+            singers: artistsString(curr_track.track.artists),
+            duration: toMinutes(curr_track.track.duration_ms),
+            album: curr_track.track.album.name,
+            date: curr_track.track.release_date,
+            src: curr_track.track.preview_url,
+            index: track.index - 1
+        }
+        setTrack(prev_track)
     }
 
     return (
-        <section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
+
+        <section section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
             <div className="flex items-center gap-4 " >
                 <img
-                    className="w-[70px] h-[70px]"
-                    src="https://plus.unsplash.com/premium_photo-1676834376020-a17554ed4fbb?q=80&w=2097&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    className="w-[65px] h-[65px] rounded"
+                    src={track?.img}
                     alt=""
                 />
-                <div className="text-white flex flex-col items-start " >
+                <div className="text-white flex flex-col items-start w-[200px]" >
                     <span>{track?.name}</span>
                     <span>{track?.singers}</span>
                 </div>
@@ -60,7 +76,13 @@ export default function Player(params) {
             </div>
 
             <div className="flex items-center flex-col justify-center gap-2" >
-                <audio src={track?.src} controls hidden ></audio>
+                <audio
+                // onTimeUpdate={(e) => {
+                //     console.log(String(e.target.currentTime).split('.').at(0));
+                //     let time = `00:${String(e.target.currentTime).split('.').at(0)}`
+                //     // setCurrTime(time)
+                // }}
+                 src={track?.src} controls hidden ></audio>
                 <div className="flex items-center gap-2" >
                     <button
                         onClick={prevTrack}
@@ -68,9 +90,16 @@ export default function Player(params) {
                     >
                         <MdSkipPrevious size={24} />
                     </button>
-                    <button className="p-[8px] text-center bg-white rounded-full" >
+                    <button
+                        onClick={() => {
+                            console.log({ play });
+                            setPlay(!play)
+                            console.log(play);
+                            // audio.pause()
+                        }}
+                        className="p-[8px] text-center bg-white rounded-full" >
                         {
-                            true ? <IoPlay size={24} /> : <IoPauseSharp size={24} />
+                            play ? <IoPlay size={24} /> : <IoPauseSharp size={24} />
                         }
                     </button>
                     <button
@@ -81,20 +110,38 @@ export default function Player(params) {
                     </button>
                 </div>
                 <div className="w-full flex items-center gap-2 text-[#c4c4c4]" >
-                    <span>0:57</span>
-                    <input type="range" className="custom-range w-[630px]" />
-                    <span>0:57</span>
+                    {
+                        audio ? (
+                            <>
+                                <span>00:01</span>
+                                <input
+                                    onChange={(e) => {
+                                        console.log(e.target.value);
+                                        audio.currentTime = +e.target.value
+                                    }}
+                                    type="range" value={0} min={0} max={audio.duration} className="custom-range w-[630px]" />
+                                <span>00:29</span>
+                            </>
+                        ) : (
+                            <span>Loading...</span>
+                        )
+                    }
                 </div>
             </div>
             <div>
                 <button></button>
                 <div className="flex items-center gap-2">
                     <IoVolumeHigh color="white" size={24} />
-                    <input type="range" />
+                    <input
+                        onChange={(e) => {
+                            audio.volume = +e.target.value / 10
+                            console.log(audio.currentTime);
+                        }}
+                        min={0} max={10} value={10} type="range" />
                 </div>
                 <button></button>
                 <button></button>
             </div>
-        </section>
+        </section >
     )
 }
