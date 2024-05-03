@@ -7,27 +7,28 @@ import { TrackContext } from "../context/TrackCTX"
 import { useEffect } from "react";
 import { PLaylistContext } from "../context/PlaylistCTX";
 import { artistsString, toMinutes } from "../helpers/utils";
+import { useRef } from "react";
 // import { PlayerContext } from "../context/PlayerCTX";
 
 
 export default function Player(params) {
     const [play, setPlay] = useState(false)
     const [currTime, setCurrTime] = useState(0)
-
     const { track, setTrack } = useContext(TrackContext)
     const { playlist_ctx } = useContext(PLaylistContext)
+    const audio_ref = useRef(null) 
+
     // let audio = null
 
     useEffect(() => {
         if(track) {
-            let audio = document.querySelector('audio')
-            audio.src = track?.src
+            audio_ref.current.src = track?.src
 
-            audio.onloadedmetadata = () => {
-                setCurrTime(audio.duration)
+            audio_ref.current.onloadedmetadata = () => {
+                setCurrTime(audio_ref.current.duration)
             };
 
-            audio.play()
+            audio_ref.current.play()
             setPlay(true)
         }
 
@@ -68,6 +69,8 @@ export default function Player(params) {
         setTrack(prev_track)
     }
 
+    console.log(audio_ref);
+
     return (
 
         <section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
@@ -91,10 +94,10 @@ export default function Player(params) {
                     controls 
                     hidden 
                     preload="metadata"
-                    currenttime={currTime}
-                    onTimeUpdate={(e) => {
-                        setCurrTime(e.target.currentTime);
-                    }}
+                    ref={audio_ref}
+                    // onTimeUpdate={(e) => {
+                    //     setCurrTime(e.target.currentTime);
+                    // }}
                 />
                 <div className="flex items-center gap-2" >
                     <button
@@ -140,8 +143,7 @@ export default function Player(params) {
                     <IoVolumeHigh color="white" size={24} />
                     <input
                         onChange={(e) => {
-                            audio.volume = +e.target.value / 10
-                            console.log(audio.currentTime);
+                            audio_ref.current.volume = +e.target.value / 10
                         }}
                         min={0} max={10} defaultValue={10} type="range" />
                 </div>
