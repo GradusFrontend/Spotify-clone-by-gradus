@@ -90,9 +90,10 @@ function Search() {
                                     results.artists.items.map((item, idx) => (
 
                                         <Singer
-                                            nickName={item.name}
-                                            img_src={item.images[0].url}
-                                            role={item.type}
+                                            key={idx}
+                                            nickName={item?.name}
+                                            img_src={item?.images[0]?.url}
+                                            role={item?.type}
                                         />
                                     ))
                                 }
@@ -106,9 +107,10 @@ function Search() {
                                 {
                                     results.albums.items.map((item, idx) => (
                                         <MultiCard
-                                            img_src={item.images[0].url}
-                                            title={item.name}
-                                            subtitle={item.type}
+                                            key={idx}
+                                            img_src={item?.images[0]?.url}
+                                            title={item?.name}
+                                            subtitle={item?.type}
                                         />
                                     ))
                                 }

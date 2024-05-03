@@ -12,20 +12,31 @@ import { artistsString, toMinutes } from "../helpers/utils";
 
 export default function Player(params) {
     const [play, setPlay] = useState(false)
-    const [currTime, setCurrTime] = useState('00:00')
+    const [currTime, setCurrTime] = useState(0)
 
     const { track, setTrack } = useContext(TrackContext)
     const { playlist_ctx } = useContext(PLaylistContext)
     // let audio = null
-    let audio = document.querySelector('audio')
-    console.log(audio);
+
     useEffect(() => {
-        let audio = document.querySelector('audio')
-        audio.src = track?.src
-        audio.play()
-        setPlay(true)
+        if(track) {
+            let audio = document.querySelector('audio')
+            audio.src = track?.src
+
+            audio.onloadedmetadata = () => {
+                setCurrTime(audio.duration)
+            };
+
+            audio.play()
+            setPlay(true)
+        }
 
     }, [track])
+
+    function updatePlayTime(currTime) {
+        let audio = document.querySelector('audio')
+        audio.currentTime = currTime
+    }
 
 
     function nextTrack() {
@@ -59,7 +70,7 @@ export default function Player(params) {
 
     return (
 
-        <section section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
+        <section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
             <div className="flex items-center gap-4 " >
                 <img
                     className="w-[65px] h-[65px] rounded"
@@ -77,12 +88,14 @@ export default function Player(params) {
 
             <div className="flex items-center flex-col justify-center gap-2" >
                 <audio
-                // onTimeUpdate={(e) => {
-                //     console.log(String(e.target.currentTime).split('.').at(0));
-                //     let time = `00:${String(e.target.currentTime).split('.').at(0)}`
-                //     // setCurrTime(time)
-                // }}
-                 src={track?.src} controls hidden ></audio>
+                    controls 
+                    hidden 
+                    preload="metadata"
+                    currenttime={currTime}
+                    onTimeUpdate={(e) => {
+                        setCurrTime(e.target.currentTime);
+                    }}
+                />
                 <div className="flex items-center gap-2" >
                     <button
                         onClick={prevTrack}
@@ -107,21 +120,18 @@ export default function Player(params) {
                     </button>
                 </div>
                 <div className="w-full flex items-center gap-2 text-[#c4c4c4]" >
-                    {
-                        audio ? (
-                            <>
-                                <span>00:01</span>
-                                <input
-                                    onChange={(e) => {
-                                        audio.currentTime = +e.target.value
-                                    }}
-                                    type="range" defaultValue={0} min={0} max={audio.duration} className="custom-range w-[630px]" />
-                                <span>00:29</span>
-                            </>
-                        ) : (
-                            <span>Loading...</span>
-                        )
-                    }
+                    <span>00:{Math.round(currTime)}</span>
+                    <input
+                        onChange={(e) => {
+                            updatePlayTime(e.target.value);
+                        }}
+                        type="range" 
+                        defaultValue={Math.round(currTime)}
+                        min={0} 
+                        max={30} 
+                        className="custom-range w-[630px]" 
+                    />
+                    <span>00</span>
                 </div>
             </div>
             <div>
