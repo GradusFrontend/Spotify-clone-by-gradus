@@ -16,9 +16,8 @@ export default function Player(params) {
     const [currTime, setCurrTime] = useState(0)
     const { track, setTrack } = useContext(TrackContext)
     const { playlist_ctx } = useContext(PLaylistContext)
-    const audio_ref = useRef(null) 
 
-    // let audio = null
+    const audio_ref = useRef(null) 
 
     useEffect(() => {
         if(track) {
@@ -69,17 +68,16 @@ export default function Player(params) {
         setTrack(prev_track)
     }
 
-    console.log(audio_ref);
-
+    
     return (
-
+        
         <section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
             <div className="flex items-center gap-4 " >
                 <img
                     className="w-[65px] h-[65px] rounded"
                     src={track?.img}
                     alt=""
-                />
+                    />
                 <div className="text-white flex flex-col items-start w-[150px]" >
                     <span>{track?.name}</span>
                     <span>{track?.singers}</span>
@@ -95,15 +93,19 @@ export default function Player(params) {
                     hidden 
                     preload="metadata"
                     ref={audio_ref}
-                    // onTimeUpdate={(e) => {
-                    //     setCurrTime(e.target.currentTime);
-                    // }}
-                />
+                    onTimeUpdate={(e) => {
+                        setCurrTime(e.target.currentTime);
+                        console.log(audio_ref);
+                    }}
+                    onEnded={(e) => {
+                        nextTrack()
+                    }}
+                    />
                 <div className="flex items-center gap-2" >
                     <button
                         onClick={prevTrack}
                         className="text-[#c4c4c4]"
-                    >
+                        >
                         <MdSkipPrevious size={24} />
                     </button>
                     <button
@@ -126,15 +128,16 @@ export default function Player(params) {
                     <span>00:{Math.round(currTime)}</span>
                     <input
                         onChange={(e) => {
+                            console.log(currTime);
                             updatePlayTime(e.target.value);
                         }}
                         type="range" 
-                        defaultValue={Math.round(currTime)}
+                        value={Math.round(currTime)}
                         min={0} 
                         max={30} 
                         className="custom-range w-[630px]" 
                     />
-                    <span>00</span>
+                    <span>00:30</span>
                 </div>
             </div>
             <div>

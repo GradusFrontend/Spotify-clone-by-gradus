@@ -7,6 +7,7 @@ import MultiCard from "../components/MultiCard";
 import { useState } from "react";
 import axios from "axios";
 import { artistsString, toMinutes } from "../helpers/utils";
+import { Link } from "react-router-dom";
 
 
 
@@ -47,7 +48,7 @@ function Search() {
                             <section className="w-[40%]">
                                 <h2 className="text-3xl font-bold mb-5">Лучший результат</h2>
                                 <BestResult
-                                    img={results.tracks.items[0].album.images[0].url}
+                                    img={results.tracks.items[0].album.images[0]?.url}
                                     name={results.tracks.items[0].name}
                                     singers={artistsString(results.tracks.items[0].artists)}
                                     duration={toMinutes(results.tracks.items[0].duration_ms)}
@@ -66,7 +67,7 @@ function Search() {
                                         results.tracks.items.slice(1, results.tracks.items.length + 1).map((item, idx) => (
 
                                             <MiniTrack
-                                                img={item.album.images[0].url}
+                                                img={item.album.images[0]?.url}
                                                 name={item.name}
                                                 singers={artistsString(item.artists)}
                                                 duration={toMinutes(item.duration_ms)}
@@ -106,12 +107,14 @@ function Search() {
                             <div className="albums_grid grid grid-cols-5">
                                 {
                                     results.albums.items.map((item, idx) => (
-                                        <MultiCard
-                                            key={idx}
-                                            img_src={item?.images[0]?.url}
-                                            title={item?.name}
-                                            subtitle={item?.type}
-                                        />
+                                        <Link to={'/playlist/' + item.id}>
+                                            <MultiCard
+                                                key={idx}
+                                                img_src={item?.images[0]?.url}
+                                                title={item?.name}
+                                                subtitle={item?.type}
+                                            />
+                                        </Link>
                                     ))
                                 }
                             </div>
@@ -123,11 +126,15 @@ function Search() {
                             <div className="playlists_grid grid grid-cols-5">
                                 {
                                     results.playlists.items.map((item, idx) => (
-                                        <MultiCard
-                                            img_src={item.images[0].url}
-                                            title={item.name}
-                                            subtitle={item.type}
-                                        />
+                                        <Link to={'/playlist/' + item.id}>
+                                            <MultiCard
+                                                key={item.id}
+                                                img_src={item.images[0].url}
+                                                title={item.name}
+                                                subtitle={item.type}
+                                            />
+                                        </Link>
+
                                     ))
                                 }
                             </div>
@@ -139,47 +146,19 @@ function Search() {
                             <div className="podcasts_grid grid grid-cols-5">
                                 {
                                     results.shows.items.map((item, idx) => (
-                                        <MultiCard
-                                            img_src={item.images[0].url}
-                                            title={item.name}
-                                            subtitle={item.type}
-                                        />
+                                        <Link to={'/playlist/' + item.id}>
+                                            <MultiCard
+                                                key={item.id}
+                                                img_src={item.images[0].url}
+                                                title={item.name}
+                                                subtitle={item.type}
+                                            />
+                                        </Link>
+
                                     ))
                                 }
                             </div>
                         </section>
-
-                        {/* <section className="releases pl-[345px] mt-8 text-white">
-                            <h2 className="text-3xl font-bold mb-5">Выпуски</h2>
-
-                            <div className="releases_grid grid grid-cols-5">
-                                <MultiCard
-                                    img_src={'/images/playlist-card.png'}
-                                    title={'This MultiCard'}
-                                    subtitle={'Subtitle'}
-                                />
-                                <MultiCard
-                                    img_src={'/images/playlist-card.png'}
-                                    title={'This MultiCard'}
-                                    subtitle={'Subtitle'}
-                                />
-                                <MultiCard
-                                    img_src={'/images/playlist-card.png'}
-                                    title={'This MultiCard'}
-                                    subtitle={'Subtitle'}
-                                />
-                                <MultiCard
-                                    img_src={'/images/playlist-card.png'}
-                                    title={'This MultiCard'}
-                                    subtitle={'Subtitle'}
-                                />
-                                <MultiCard
-                                    img_src={'/images/playlist-card.png'}
-                                    title={'This MultiCard'}
-                                    subtitle={'Subtitle'}
-                                />
-                            </div>
-                        </section> */}
                     </>
                 ) : (
                     <div className="pl-[340px] mt-10 text-white w-[90%] flex justify-center">
@@ -187,45 +166,6 @@ function Search() {
                     </div>
                 )
             }
-
-
-            {/* <section className="profiles pl-[345px] mt-8 text-white">
-                <h2 className="text-3xl font-bold mb-5">Профили</h2>
-
-                <div className="profiles-grid grid grid-cols-5">
-                    <Singer
-                        nickName={"Oneheart"}
-                        img_src={"/images/playlist-card.png"}
-                        role={'Исполнитель'}
-                    />
-                    <Singer
-                        nickName={"Oneheart"}
-                        img_src={"/images/playlist-card.png"}
-                        role={'Исполнитель'}
-                    />
-                    <Singer
-                        nickName={"Oneheart"}
-                        img_src={"/images/playlist-card.png"}
-                        role={'Исполнитель'}
-                    />
-                    <Singer
-                        nickName={"Oneheart"}
-                        img_src={"/images/playlist-card.png"}
-                        role={'Исполнитель'}
-                    />
-                    <Singer
-                        nickName={"Oneheart"}
-                        img_src={"/images/playlist-card.png"}
-                        role={'Исполнитель'}
-                    />
-                </div>
-            </section>
-
-            <section className="allGenres mb-[100px]">
-                <h2 className="text-3xl font-bold mb-5">Остальное</h2>
-
-                <div className="allgenres_grid grid grid-cols-6 gap-4"></div>
-            </section> */}
         </>
     );
 }
