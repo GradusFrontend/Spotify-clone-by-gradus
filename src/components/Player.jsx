@@ -66,7 +66,7 @@ export default function Player(params) {
                     src={track?.img}
                     alt=""
                 />
-                <div className="text-white flex flex-col items-start w-[200px]" >
+                <div className="text-white flex flex-col items-start w-[150px]" >
                     <span>{track?.name}</span>
                     <span>{track?.singers}</span>
                 </div>
@@ -92,10 +92,7 @@ export default function Player(params) {
                     </button>
                     <button
                         onClick={() => {
-                            console.log({ play });
                             setPlay(!play)
-                            console.log(play);
-                            // audio.pause()
                         }}
                         className="p-[8px] text-center bg-white rounded-full" >
                         {
@@ -116,10 +113,9 @@ export default function Player(params) {
                                 <span>00:01</span>
                                 <input
                                     onChange={(e) => {
-                                        console.log(e.target.value);
                                         audio.currentTime = +e.target.value
                                     }}
-                                    type="range" value={0} min={0} max={audio.duration} className="custom-range w-[630px]" />
+                                    type="range" defaultValue={0} min={0} max={audio.duration} className="custom-range w-[630px]" />
                                 <span>00:29</span>
                             </>
                         ) : (
@@ -137,7 +133,7 @@ export default function Player(params) {
                             audio.volume = +e.target.value / 10
                             console.log(audio.currentTime);
                         }}
-                        min={0} max={10} value={10} type="range" />
+                        min={0} max={10} defaultValue={10} type="range" />
                 </div>
                 <button></button>
                 <button></button>

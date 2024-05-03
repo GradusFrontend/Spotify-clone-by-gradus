@@ -16,6 +16,5 @@ export function artistsString(arr) {
         str = arr[0].name
     }
     
-    str = str.slice(0, -1)
-    return str
+    return str.slice(0, -1)
 }
