@@ -12,26 +12,37 @@ import { useRef } from "react";
 
 
 export default function Player(params) {
-    const [play, setPlay] = useState(false)
-    const [currTime, setCurrTime] = useState(0)
     const { track, setTrack } = useContext(TrackContext)
+
+    const [play, setPlay] = useState(track?.isPlaying || false)
+    const [currTime, setCurrTime] = useState(0)
     const { playlist_ctx } = useContext(PLaylistContext)
 
-    const audio_ref = useRef(null) 
+    const audio_ref = useRef(null)
 
     useEffect(() => {
-        if(track) {
+        if (track) {
             audio_ref.current.src = track?.src
 
-            audio_ref.current.onloadedmetadata = () => {
-                setCurrTime(audio_ref.current.duration)
-            };
-
-            audio_ref.current.play()
-            setPlay(true)
+            if (track.isPlaying) {
+                audio_ref.current.play()
+                setPlay(true)
+            } else {
+                audio_ref.current.pause()
+                setPlay(false)
+            }
         }
 
     }, [track])
+
+    useEffect(() => {
+        if (play) {
+            audio_ref.current.play()
+        } else {
+            audio_ref.current.pause()
+        }
+    }, [play])
+
 
     function updatePlayTime(currTime) {
         let audio = document.querySelector('audio')
@@ -49,7 +60,8 @@ export default function Player(params) {
             album: curr_track.track.album.name,
             date: curr_track.track.release_date,
             src: curr_track.track.preview_url,
-            index: track.index + 1
+            index: track.index + 1,
+            isPlaying: true
         }
         setTrack(next_track)
     }
@@ -63,21 +75,22 @@ export default function Player(params) {
             album: curr_track.track.album.name,
             date: curr_track.track.release_date,
             src: curr_track.track.preview_url,
-            index: track.index - 1
+            index: track.index - 1,
+            isPlaying: true
         }
         setTrack(prev_track)
     }
 
-    
+
     return (
-        
+
         <section className="fixed left-0 right-0 bottom-0 h-[116px] bg-[#181818] z-10 flex items-center justify-between p-5" >
             <div className="flex items-center gap-4 " >
                 <img
                     className="w-[65px] h-[65px] rounded"
                     src={track?.img}
                     alt=""
-                    />
+                />
                 <div className="text-white flex flex-col items-start w-[150px]" >
                     <span>{track?.name}</span>
                     <span>{track?.singers}</span>
@@ -89,23 +102,22 @@ export default function Player(params) {
 
             <div className="flex items-center flex-col justify-center gap-2" >
                 <audio
-                    controls 
-                    hidden 
+                    controls
+                    hidden
                     preload="metadata"
                     ref={audio_ref}
                     onTimeUpdate={(e) => {
                         setCurrTime(e.target.currentTime);
-                        console.log(audio_ref);
                     }}
                     onEnded={(e) => {
                         nextTrack()
                     }}
-                    />
+                />
                 <div className="flex items-center gap-2" >
                     <button
                         onClick={prevTrack}
                         className="text-[#c4c4c4]"
-                        >
+                    >
                         <MdSkipPrevious size={24} />
                     </button>
                     <button
@@ -114,7 +126,7 @@ export default function Player(params) {
                         }}
                         className="p-[8px] text-center bg-white rounded-full" >
                         {
-                            play ? <IoPlay size={24} /> : <IoPauseSharp size={24} />
+                           play ? <IoPauseSharp size={24} />:  <IoPlay size={24} /> 
                         }
                     </button>
                     <button
@@ -128,14 +140,13 @@ export default function Player(params) {
                     <span>00:{Math.round(currTime)}</span>
                     <input
                         onChange={(e) => {
-                            console.log(currTime);
                             updatePlayTime(e.target.value);
                         }}
-                        type="range" 
+                        type="range"
                         value={Math.round(currTime)}
-                        min={0} 
-                        max={30} 
-                        className="custom-range w-[630px]" 
+                        min={0}
+                        max={30}
+                        className="custom-range w-[630px]"
                     />
                     <span>00:30</span>
                 </div>

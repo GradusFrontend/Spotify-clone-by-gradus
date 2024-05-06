@@ -1,14 +1,21 @@
 import { useContext } from "react";
 import { TrackContext } from "../context/TrackCTX";
 import AudioSpinner from "./Audio";
+import { useState } from "react";
 
 
 function Track({ src, img, name, singers, album, date, duration, index }) {
+    const [play, setPlay] = useState(false)
     const { track, setTrack } = useContext(TrackContext)
 
     return (
         <div
-            onClick={() => setTrack({ img, name, singers, album, date, duration, index, src })}
+            onClick={() => 
+                {
+                    setPlay(!play)
+                    setTrack({ isPlaying: !play, img, name, singers, album, date, duration, index, src })
+                }
+            }
             className="track grid grid-cols-5 items-center px-5 py-2 rounded cursor-pointer hover:bg-[#2a2a2a]"
         >
             <div className="flex items-center gap-5 col-start-1 col-end-3">

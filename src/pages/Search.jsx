@@ -33,7 +33,6 @@ function Search() {
                                     .then(res => {
                                         setResults(res.data)
                                     })
-                                console.log(results);
                             }
                         }}
                         className="h-full w-[100%] bg-[#2a2a2a] outline-none py-4" placeholder="Что хочешь включить?" type="text" name="query" id="queryInput" />

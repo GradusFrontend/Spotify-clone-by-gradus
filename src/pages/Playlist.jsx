@@ -28,9 +28,6 @@ function Playlist() {
             })
     }, [])
 
-    console.log(playlist);
-
-   
 
     return (
         <>
