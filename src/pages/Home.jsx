@@ -23,14 +23,15 @@ function Home() {
             .then(res => {
                 setPlaylists(res.data.items)
             })
-        axios.get(URL + '/me', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(res => {
-                localStorage.setItem('user', JSON.stringify(res.data))
-            })
+
+        // axios.get(URL + '/me', {
+        //     headers: {
+        //         Authorization: `Bearer ${token}`
+        //     }
+        // })
+        //     .then(res => {
+        //         localStorage.setItem('user', JSON.stringify(res.data))
+        //     })
 
         axios.get(URL + '/me', {
             headers: {
@@ -40,6 +41,16 @@ function Home() {
             .then(res => {
                 setUser(res.data)
             })
+
+        // axios.get(URL + '/me/player/recently-played?limit=1', {
+        //     headers: {
+        //         Authorization: `Bearer ${token}`
+        //     }
+        // })
+        //     .then(res => {
+                
+        //     })
+
         axios.get(URL + '/browse/featured-playlists', {
             headers: {
                 Authorization: `Bearer ${token}`

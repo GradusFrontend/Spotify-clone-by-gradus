@@ -40,9 +40,9 @@ function Playlist() {
     return (
         <>
             <div
-                className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-screen z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616]"
+                className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-screen z-[-1]"
                 style={{
-                    backgroundColor: bgColor
+                    background: `linear-gradient(0deg, rgba(22,22,22,1) 0%, ${bgColor} 100%)`
                 }}
             ></div>
 
