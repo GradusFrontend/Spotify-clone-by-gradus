@@ -5,7 +5,7 @@ function Login() {
     const REDIRECT_URL = import.meta.env.VITE_REDIRECT_URL
     const RESPONSE_TYPE = import.meta.env.VITE_RESPONSE_TYPE
 
-    let url = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=playlist-modify-public`
+    let url = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=user-read-recently-played,user-top-read`
     return ( 
         <main className=" w-screen h-screen flex items-center justify-center">
             <section className="flex items-center flex-col gap-6 w-[400px] text-white">

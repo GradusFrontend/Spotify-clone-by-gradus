@@ -34,6 +34,7 @@ export default function ProfileMenu() {
                             <li
                                 onClick={() => {
                                     localStorage.removeItem('token')
+                                    localStorage.removeItem('user')
                                     location.reload()
                                 }}
                                 className="flex items-center justify-between cursor-pointer">

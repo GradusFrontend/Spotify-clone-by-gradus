@@ -23,6 +23,14 @@ function Home() {
             .then(res => {
                 setPlaylists(res.data.items)
             })
+        axios.get(URL + '/me', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                localStorage.setItem('user', JSON.stringify(res.data))
+            })
 
         axios.get(URL + '/me', {
             headers: {

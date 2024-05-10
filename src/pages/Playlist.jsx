@@ -2,15 +2,17 @@ import { FaPlay } from "react-icons/fa";
 import { LuClock3 } from "react-icons/lu";
 import { RxDotsHorizontal } from "react-icons/rx";
 import Track from "../components/Track";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { PLaylistContext } from "../context/PlaylistCTX";
-import { artistsString, toMinutes } from "../helpers/utils";
+import { artistsString, getAverageRGB, toMinutes } from "../helpers/utils";
 
 
 function Playlist() {
     const [playlist, setPlaylist] = useState({})
-    const {playlist_ctx, setPLaylist_ctx} = useContext(PLaylistContext)
+    const { playlist_ctx, setPLaylist_ctx } = useContext(PLaylistContext)
+    const [bgColor, setBgColor] = useState([])
+    const img_ref = useRef(null)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -28,17 +30,28 @@ function Playlist() {
             })
     }, [])
 
+    useEffect(() => {
+        if (img_ref.current && bgColor) {
+            setBgColor(getAverageRGB(img_ref.current));
+        }
+    })
+
 
     return (
         <>
-            <div className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-screen z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616]"></div>
+            <div
+                className="backdrop backdrop-blur-[70px] absolute top-0 left-0 right-0 h-[70%] w-screen z-[-1] bg-gradient-to-b from-[#1fdf6570] to-[#161616]"
+                style={{
+                    backgroundColor: bgColor
+                }}
+            ></div>
 
             <main className=" text-white pl-[340px] mt-6">
                 {
-                    playlist?.tracks ?  (
+                    playlist?.tracks ? (
                         <section className="flex gap-6">
                             <div className="playlist_img">
-                                <img className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={playlist?.images[0]?.url} alt="playlist-card" />
+                                <img ref={img_ref} className="max-w-[290px] max-h-[290px] w-[250px] h-[250px] rounded object-cover shadow-[0px_0px_65px_4px_rgba(0,0,0,0.54)]" src={playlist?.images[0]?.url} alt="playlist-card" />
                             </div>
                             <div className="playlist_info flex flex-col justify-end gap-3">
                                 <h3 className="text-base">{playlist.type}</h3>

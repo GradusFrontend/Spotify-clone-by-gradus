@@ -34,10 +34,14 @@ export default function Layout() {
         <>
             <header className="w-full flex justify-between items-center pl-[340px] pr-10 py-5 z-10">
                 <div className="flex items-center gap-1">
-                    <button className="bg-[#131313] rounded-full p-2">
+                    <button
+                    onClick={() => navigate(-1)}
+                     className="bg-[#131313] rounded-full p-2">
                         <MdKeyboardArrowLeft size={24} color="white" />
                     </button>
-                    <button className="bg-[#131313] rounded-full p-2">
+                    <button
+                    onClick={() => navigate(+1)}
+                     className="bg-[#131313] rounded-full p-2">
                         <MdKeyboardArrowRight size={24} color="white" />
                     </button>
                 </div>

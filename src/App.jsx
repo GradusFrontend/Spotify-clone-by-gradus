@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import { TrackContext } from './context/TrackCTX'
 import { PLaylistContext } from './context/PlaylistCTX'
+import Library from './pages/library'
 
 function App() {
     const [track, setTrack] = useState(null)
@@ -21,6 +22,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path='/search' element={<Search />} />
                         <Route path='/playlist/:playlistId' element={<Playlist />} />
+                        <Route path='/library' element={<Library />} />
                     </Route>
                     <Route path='/login' element={<Login />} />
                 </Routes>
